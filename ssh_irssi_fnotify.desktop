@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/daniel/.ssh_irssi_fnotify ssh-server-name
+Hidden=false
+X-GNOME-Autostart-enabled=true
+Name[en_GB]=SSH irssi fnotify
+Name=SSH irssi fnotify
+Comment[en_GB]=Deliver .irssi/fnotify lines to libnotify
+Comment=Deliver .irssi/fnotify lines to libnotify

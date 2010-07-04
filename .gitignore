@@ -1,0 +1,4 @@
+irssi.h
+irssi_alert.h
+*.o
+ssh_irssi_fnotify

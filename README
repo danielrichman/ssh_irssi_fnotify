@@ -1,0 +1,83 @@
+
+===============================================================================
+  INFO
+===============================================================================
+
+fnotify has existed for a while, and is a plugin for irssi that writes any 
+text with the HILIGHT flag set to a file so that it may be picked up by an
+external program and then forwarded on to whatever notification system is 
+appropriate.
+
+ssh_irssi_fnotify starts a ssh process, using tail -f to collect lines written
+to the file, and fires of a notice (via libnotify) whenever a hilighted 
+message is received. It also creates an irssi-icon in the notification area,
+which will turn blue when a hilighted message is received. This "flag" can
+be "reset" to clear by clicking on it
+
+===============================================================================
+  LEGAL
+===============================================================================
+
+ssh_irssi_fnotify is Copyright (C) 2010  Daniel Richman
+
+Some code in the icon functions was based off XChat, which is 
+  Copyright (C) 2006-2007 Peter Zelezny.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+For a full copy of the GNU General Public License, 
+see <http://www.gnu.org/licenses/>.
+
+===============================================================================
+
+fnotify.pl is written by Thorsten Leemhuis
+and is licensed under the GNU General Public License
+
+The file also includes this information:
+
+ In parts based on knotify.pl 0.1.1 by Hugo Haas
+ http://larve.net/people/hugo/2005/01/knotify.pl
+ which is based on osd.pl 0.3.3 by Jeroen Coekaerts, Koenraad Heijlen
+ http://www.irssi.org/scripts/scripts/osd.pl
+ 
+ Other parts based on notify.pl from Luke Macken
+ http://fedora.feedjack.org/user/918/
+
+===============================================================================
+
+irssi.png and irssi_alert.png are derived from the banner image
+http://irssi.org/images/irssitop.png from http://irssi.org/. 
+That file is Copyright (C) 2000-2010 The Irssi project.
+
+===============================================================================
+  INSTALLATION
+===============================================================================
+
+Building ssh_irssi_fnotify requires libnotify-dev and libgtk2.0-dev.
+Run make to get started!
+
+Personally I just install the resulting binary (which has the png files 
+compiled in so can operate totally stand-alone) to ~/.ssh_irssi_fnotify and
+start it automatically using gnome autostart (copy the included .desktop
+file to ~/.config/autostart after editing the ssh-server-name). 
+I use ssh-agent and settings in my ssh_config to have this all automated.
+
+===============================================================================
+  TODO
+===============================================================================
+
+ * Automatic reset of icon when messages in irssi are viewed
+ * Have a queue that is emptied by ssh_irssi_fnotify, thereby allowing
+   hilights from time spent detached/offline to be displayed when
+   reconnecting. This would also solve the next TODO:
+ * Avoid using a file (which keeps growing) to communicate with irssi
+ * Configuration file & a GUI for this.
+
