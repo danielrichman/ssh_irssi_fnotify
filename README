@@ -12,7 +12,7 @@ ssh_irssi_fnotify starts a ssh process, using tail -f to collect lines written
 to the file, and fires of a notice (via libnotify) whenever a hilighted 
 message is received. It also creates an irssi-icon in the notification area,
 which will turn blue when a hilighted message is received. This "flag" can
-be "reset" to clear by clicking on it
+be "reset" to clear by clicking on it.
 
 ===============================================================================
   LEGAL
@@ -80,4 +80,4 @@ I use ssh-agent and settings in my ssh_config to have this all automated.
    reconnecting. This would also solve the next TODO:
  * Avoid using a file (which keeps growing) to communicate with irssi
  * Configuration file & a GUI for this.
-
+ * Watch out incase the ssh child dies.
