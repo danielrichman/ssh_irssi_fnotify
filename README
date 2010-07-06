@@ -81,3 +81,9 @@ I use ssh-agent and settings in my ssh_config to have this all automated.
  * Avoid using a file (which keeps growing) to communicate with irssi
  * Configuration file & a GUI for this.
  * Watch out incase the ssh child dies.
+
+===============================================================================   COMPLETED TODOS
+===============================================================================
+
+ * Fix thread safety: it *still* segfaults :X -- Done
+

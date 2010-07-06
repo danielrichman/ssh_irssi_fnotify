@@ -21,11 +21,12 @@ GDK_PIXBUF_CSOURCE = gdk-pixbuf-csource
 OPT = -O2 -march=native
 PEDANT = -Wall
 
-GTK_CFLAGS = $(shell pkg-config --cflags gtk+-2.0)
-GTK_LIBS   = $(shell pkg-config --libs   gtk+-2.0)
+PKGCFGS  = gtk+-2.0 gthread-2.0 glib-2.0 libnotify
+P_CFLAGS = $(shell pkg-config --cflags $(PKGCFGS))
+P_LIBS   = $(shell pkg-config --libs   $(PKGCFGS))
 
-CFLAGS = $(OPT) $(PEDANT) $(GTK_CFLAGS)
-LINKLIBS = -lnotify $(GTK_LIBS)
+CFLAGS = $(OPT) $(PEDANT) $(P_CFLAGS)
+LINKLIBS = $(P_LIBS)
 
 cfiles      := $(wildcard *.c)
 pngfiles    := $(wildcard *.png)

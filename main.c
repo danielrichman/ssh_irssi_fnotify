@@ -24,9 +24,10 @@
 #include <unistd.h>
 #include <pthread.h>
 
+#include <glib.h>
+#include <glib-object.h>
 #include <gtk/gtk.h>
 #include <libnotify/notify.h>
-#include <glib-object.h>
 
 #include "irssi.h"
 #include "irssi_alert.h"
@@ -36,7 +37,9 @@ GdkPixbuf *icon_idle, *icon_alert;
 
 void *gtk_thread(void *data)
 {
+  gdk_threads_enter();
   gtk_main();
+  gdk_threads_leave();
   return NULL;
 }
 
@@ -119,7 +122,12 @@ int main(int argc, char **argv)
   pthread_t thread;
   int r;
 
+  g_thread_init(NULL);
+  gdk_threads_init();
+
+  gdk_threads_enter();
   gtk_init(&argc, &argv);
+  gdk_threads_leave();
 
   if (argc != 2)
   {
