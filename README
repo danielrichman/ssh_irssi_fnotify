@@ -82,7 +82,8 @@ I use ssh-agent and settings in my ssh_config to have this all automated.
  * Configuration file & a GUI for this.
  * Watch out incase the ssh child dies.
 
-===============================================================================   COMPLETED TODOS
+===============================================================================
+  COMPLETED TODOS
 ===============================================================================
 
  * Fix thread safety: it *still* segfaults :X -- Done
