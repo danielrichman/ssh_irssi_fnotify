@@ -23,6 +23,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include <glib.h>
 #include <glib-object.h>
@@ -40,7 +42,28 @@ void *gtk_thread(void *data)
   gdk_threads_enter();
   gtk_main();
   gdk_threads_leave();
+  exit(EXIT_FAILURE);
   return NULL;
+}
+
+void *reaper_thread(void *data)
+{
+  pid_t cpid, r;
+  int status;
+
+  cpid = *((pid_t *) data);
+
+  for (;;)
+  {
+    r = waitpid(cpid, &status, WUNTRACED | WCONTINUED);
+    if (r == -1 || WIFEXITED(status) || WIFSIGNALED(status))
+    {
+      gdk_threads_enter();
+      gtk_main_quit();
+      gdk_threads_leave();
+      return NULL;
+    }
+  }
 }
 
 void icon_set()
@@ -112,6 +135,12 @@ void parent(FILE *fnotify)
   fprintf(stderr, "fgets returned NULL\n");
 
   notify_uninit();
+
+  gdk_threads_enter();
+  gtk_main_quit();
+  gdk_threads_leave();
+
+  return;
 }
 
 int main(int argc, char **argv)
@@ -168,12 +197,6 @@ int main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  if (pthread_create(&thread, NULL, gtk_thread, NULL) != 0)
-  {
-    perror("pthread_create");
-    exit(EXIT_FAILURE);
-  }
-
   cpid = fork();
   if (cpid == -1)
   {
@@ -197,7 +220,22 @@ int main(int argc, char **argv)
   }
   else
   {
+    if (pthread_create(&thread, NULL, gtk_thread, NULL) != 0)
+    {
+      perror("pthread_create");
+      exit(EXIT_FAILURE);
+    }
+
+    if (pthread_create(&thread, NULL, reaper_thread, &cpid) != 0)
+    {
+      perror("pthread_create");
+      gdk_threads_enter();
+      gtk_main_quit();
+      gdk_threads_leave();
+      return EXIT_FAILURE;
+    }
+
     parent(fnotify);
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 }
